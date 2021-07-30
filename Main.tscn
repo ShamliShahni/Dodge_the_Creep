@@ -16,8 +16,6 @@ export (PackedScene) var Mob
 var score
 var game_time = 0.4
 var player = preload(\"res://Player.gd\")
-var walk_speed = 200
-var velocity = Vector2()
 var mob
 var moveing_Vector = Vector2()
 
@@ -58,19 +56,15 @@ func _on_MobTimer_timeout():
 	# Set the mob's direction perpendicular to the path direction.
 	var direction = $MobPath/MobSpawnLocation.rotation + PI / 2
 	# Set the mob's position to a random location.
-	mob.position = $MobPath/MobSpawnLocation.position
+	#mob.position = $MobPath/MobSpawnLocation.position
 	# Add some randomness to the direction.
 	direction += rand_range(-PI / 4, PI / 4)
 	mob.rotation = direction
-	# Set the velocity (speed & direction).
-	velocity.x += walk_speed
-	velocity.y += walk_speed
-	#mob.move_and_slide(velocity,Vector2(0,-1))
+	
 	if mob.enemy_alive:
-		moveing_Vector = Vector2(rand_range(mob.min_speed, mob.max_speed), 0)
-		#mob.move_and_collide(moveing_Vector)
-		mob.linear_velocity = moveing_Vector #Vector2(rand_range(mob.min_speed, mob.max_speed), 0)
-		mob.linear_velocity = mob.linear_velocity.rotated(direction)
+		moveing_Vector = Vector2(rand_range(2,4), 0)
+		#mob.linear_velocity = moveing_Vector #Vector2(rand_range(mob.min_speed, mob.max_speed), 0)
+		#mob.linear_velocity = mob.linear_velocity.rotated(direction)
 	#else:
 	#	mob.linear_velocity = Vector2(0,0)
 	#	mob.CollisionShape2D.disable = true
@@ -96,6 +90,9 @@ _data = {
 script = SubResource( 1 )
 Mob = ExtResource( 1 )
 
+[node name="PlayerHealthBar" parent="." instance=ExtResource( 4 )]
+position = Vector2( 140.158, 81.4252 )
+
 [node name="Player" parent="." instance=ExtResource( 2 )]
 
 [node name="ScoreTimer" type="Timer" parent="."]
@@ -117,19 +114,16 @@ position = Vector2( 2.90845, 1.25266 )
 rotation = 3.03855e-08
 
 [node name="MobTimer" type="Timer" parent="."]
-wait_time = 2.0
+wait_time = 0.5
 
 [node name="hud" parent="." instance=ExtResource( 3 )]
-
-[node name="Camera2D" type="Camera2D" parent="."]
-offset = Vector2( 240, 360 )
-current = true
 
 [node name="GameTIme" type="Timer" parent="."]
 wait_time = 0.4
 
-[node name="PlayerHealthBar" parent="." instance=ExtResource( 4 )]
-position = Vector2( 138.823, 60.0678 )
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2( 238.936, 359.072 )
+current = true
 
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="hit" from="Player" to="." method="new_game"]

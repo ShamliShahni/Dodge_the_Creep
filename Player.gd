@@ -79,4 +79,16 @@ func _on_Area2D_body_entered(body):
 		tween.interpolate_property($AnimatedSprite,"modulate:a",0,1,0.2)
 		yield(get_tree().create_timer(timer),"timeout")
 		queue_free()
-	pass # Replace with function body.
+	
+	
+	if group.has("coin"):
+		print(body.name)
+		var cur_score = get_parent().score
+		cur_score += 20
+		body.Visibility()
+#		print("coin")
+#		#var coin = get_parent().get("Coin")
+#		#coin.visible = false
+#		#coin.visible = false
+#		#coin.sleeping = true 
+#

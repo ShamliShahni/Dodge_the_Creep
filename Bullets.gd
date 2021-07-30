@@ -9,6 +9,8 @@ func _ready():
 	Self_Distruction()
 
 func _on_Bullets_body_entered(body):
+	#print(body)
+	hide()
 	pass
 
 func get_damage():

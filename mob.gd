@@ -1,7 +1,7 @@
 extends RigidBody2D
 
-export var min_speed = 50  # Minimum speed range.
-export var max_speed = 150  # Maximum speed range.
+export var min_speed = 5  # Minimum speed range.
+export var max_speed = 10  # Maximum speed range.
 var max_health = 100
 var current_health = 100
 var timer = 0.4
@@ -27,39 +27,38 @@ func _on_Area2D_body_entered(body):
 	
 	if group.has("bullet"):
 		current_health -= body.get_damage()
+		#mode = RigidBody2D.MODE_STATIC
+		sleeping = true
 		
+		
+	if current_health <= 0:
+		#print("enemy")
+		pass
+	
 	if current_health <= 0 && enemy_alive:
 		col_state = col_state + 1
 		enemy_alive = false
 		gravity_scale = 0
-		pos = position
+		#pos = position
 		sleeping = true
+		mode = RigidBody2D.MODE_STATIC
 		#lin_var.mob.linear_velocity = Vector2(0,0)
-		
 		$AnimatedSprite.stop()
-		tween.start()
-		tween.interpolate_property($AnimatedSprite,"modulate:a",1,0,0.2)
-		tween.interpolate_property($AnimatedSprite,"modulate:a",0,1,0.2)
-		yield(get_tree().create_timer(timer),"timeout")
 		$AnimatedSprite.visible = false
 		$AnimatedSprite.queue_free()
 		$Area2D.queue_free()
 		$CollisionShape2D.queue_free()
+		$AnimatedSprite2.visible = true
+		$AnimatedSprite2.animation = "explosion"
+		$AnimatedSprite2.play()
+		yield(get_tree().create_timer(timer),"timeout")
+		$AnimatedSprite2.stop()
+		$AnimatedSprite2.visible = false
 		$Coin.visible = true
+		$Coin.sleeping = false
 		is_coin = true
-		mode = RigidBody2D.MODE_STATIC
+		sleeping = false
 		
 		#pos = position
 		yield(get_tree().create_timer(timer2),"timeout")
-		#queue_free()
-		#var coins_instance = coins.instance()
-		#coins_instance.position = pos
-		#coins_instance.rotation = rotation
-		#get_parent().add_child(coins_instance)
 		
-	if group.has("player") && !enemy_alive:
-		print("coin")
-	
-	if group.has("mob"):
-		pos = position
-		#$CollisionShape2D.disabled = true
