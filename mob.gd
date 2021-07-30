@@ -10,6 +10,8 @@ var coins = preload("res://Coin.tscn")
 var pos 
 onready var tween = get_node("Tween")
 var enemy_alive = true
+var col_state = 0
+var is_coin = false
 
 func _ready():
 	var mob_types = $AnimatedSprite.frames.get_animation_names()
@@ -18,6 +20,7 @@ func _ready():
 
 func _on_VisibilityNotifier2D_screen_exited():
 		queue_free()
+	
 
 func _on_Area2D_body_entered(body):
 	var group = body.get_groups()
@@ -26,7 +29,9 @@ func _on_Area2D_body_entered(body):
 		current_health -= body.get_damage()
 		
 	if current_health <= 0 && enemy_alive:
+		col_state = col_state + 1
 		enemy_alive = false
+		gravity_scale = 0
 		pos = position
 		sleeping = true
 		#lin_var.mob.linear_velocity = Vector2(0,0)
@@ -37,7 +42,13 @@ func _on_Area2D_body_entered(body):
 		tween.interpolate_property($AnimatedSprite,"modulate:a",0,1,0.2)
 		yield(get_tree().create_timer(timer),"timeout")
 		$AnimatedSprite.visible = false
-		$Sprite.visible = true
+		$AnimatedSprite.queue_free()
+		$Area2D.queue_free()
+		$CollisionShape2D.queue_free()
+		$Coin.visible = true
+		is_coin = true
+		mode = RigidBody2D.MODE_STATIC
+		
 		#pos = position
 		yield(get_tree().create_timer(timer2),"timeout")
 		#queue_free()
@@ -45,7 +56,10 @@ func _on_Area2D_body_entered(body):
 		#coins_instance.position = pos
 		#coins_instance.rotation = rotation
 		#get_parent().add_child(coins_instance)
+		
+	if group.has("player") && !enemy_alive:
+		print("coin")
 	
 	if group.has("mob"):
 		pos = position
-		$CollisionShape2D.disabled = true
+		#$CollisionShape2D.disabled = true

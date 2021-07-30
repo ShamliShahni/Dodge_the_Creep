@@ -68,6 +68,7 @@ func _on_MobTimer_timeout():
 	#mob.move_and_slide(velocity,Vector2(0,-1))
 	if mob.enemy_alive:
 		moveing_Vector = Vector2(rand_range(mob.min_speed, mob.max_speed), 0)
+		#mob.move_and_collide(moveing_Vector)
 		mob.linear_velocity = moveing_Vector #Vector2(rand_range(mob.min_speed, mob.max_speed), 0)
 		mob.linear_velocity = mob.linear_velocity.rotated(direction)
 	#else:
