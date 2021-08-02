@@ -6,26 +6,29 @@ extends Node
 # var b = "text"
 export (PackedScene) var mob
 var score
+var player_alive
+
 
 func _ready():
 	randomize()
-	
+	score = 0
+	$Player.start($StartPostion.position)
+	$Player.visible = true
+	$StartTimer.start()
+	$hud.update_score(score)
+	$Player.coin = 0
+	player_alive = $Player.is_alive
+
+func _process(delta):
+	if !player_alive:
+		game_over()
+
 func game_over():
 	 $ScoreTimer.stop()
 	 $MobTimer.stop()
 	 get_tree().call_group("mobs", "queue_free")
+	 
 
-func new_game():
-	 score = 0
-	 $Player.start($StartPostion.position)
-	 $Player.visible = true
-	 $StartTimer.start()
-	 $hud.update_score(score)
-	 $hud.show_message("Get Ready")
-	 #$hud.coin = 0
-	 #$hud.coin = 0
-	 $Player.coin = 0
-	
 func _on_StartTimer_timeout():
 	$MobTimer.start()
 	$ScoreTimer.start()

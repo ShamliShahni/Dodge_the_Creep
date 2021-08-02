@@ -19,6 +19,10 @@ func _on_VisibilityNotifier2D_screen_exited():
 func _on_Area2D_body_entered(body):
 	var group = body.get_groups()
 	
+	if group.has("player"):
+		#print("player")
+		body.player_health()
+	
 	if group.has("bullet"):
 		current_health -= body.get_damage()
 		sleeping = true
@@ -26,7 +30,6 @@ func _on_Area2D_body_entered(body):
 	if current_health <= 0 && enemy_alive:
 		enemy_alive = false
 		sleeping = true
-		mode = RigidBody2D.MODE_STATIC
 		$MobSprite.stop()
 		$MobSprite.visible = false
 		$MobSprite.queue_free()
@@ -38,7 +41,6 @@ func _on_Area2D_body_entered(body):
 		$explosion.stop()
 		$explosion.visible = false
 		$Coin.visible = true
-		$Coin.sleeping = false
 		$Coin/Sprite.animation = "coin_anim"
 		$Coin/Sprite.play()
 		sleeping = false

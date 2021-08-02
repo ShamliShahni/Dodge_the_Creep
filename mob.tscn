@@ -25,14 +25,14 @@ animations = [ {
 "name": "walk",
 "speed": 3.0
 }, {
-"frames": [ ExtResource( 6 ), ExtResource( 3 ) ],
-"loop": true,
-"name": "fly",
-"speed": 3.0
-}, {
 "frames": [ ExtResource( 2 ), ExtResource( 4 ) ],
 "loop": true,
 "name": "swim",
+"speed": 3.0
+}, {
+"frames": [ ExtResource( 6 ), ExtResource( 3 ) ],
+"loop": true,
+"name": "fly",
 "speed": 3.0
 } ]
 
@@ -89,7 +89,7 @@ visible = false
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-visible = false
+position = Vector2( 0.667419, 2.66968 )
 shape = SubResource( 4 )
 
 [connection signal="body_entered" from="." to="." method="_on_mob_body_entered"]

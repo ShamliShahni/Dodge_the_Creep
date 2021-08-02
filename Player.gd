@@ -12,12 +12,13 @@ var fire_rate = 0.1
 var can_fire = true
 var bullets = preload("res://Bullets.tscn")
 var health_max = 100
-var player_health = 100
+var health = 100
 var player_damage = 20
-var timer = 0.4
+var timer = 0.7
 var is_alive = true
 onready var tween = get_node("Tween")
 var coin = 0
+var gameover = preload("res://GameOver.tscn")
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -66,13 +67,18 @@ func move_player():
 		 
 
 func _on_Area2D_body_entered(body):
-	var group = body.get_groups()
-	if group.has("mob"):
-		player_health -= player_damage
-		var healthDisplay = get_parent().get_node("PlayerHealthBar")
-		healthDisplay.update_healthbar(player_health)
-		
-	if player_health <= 0:
+	pass
+func update_coin_player():
+	var coinVal = get_parent().get_node("hud")
+	coin += 1
+	coinVal.update_coin(coin)
+
+func player_health():
+	health -= player_damage
+	var healthDisplay = get_parent().get_node("PlayerHealthBar")
+	healthDisplay.update_healthbar(health)
+	
+	if health <= 0:
 		is_alive = false
 		emit_signal("hit")
 		$AnimatedSprite.stop()
@@ -81,13 +87,4 @@ func _on_Area2D_body_entered(body):
 		tween.interpolate_property($AnimatedSprite,"modulate:a",0,1,0.2)
 		yield(get_tree().create_timer(timer),"timeout")
 		queue_free()
-	
-	
-	if group.has("coin"):
-		print(body.name)
-		var cur_score = get_parent().score
-		cur_score += 20
-		body.Visibility()
-		var coinVal = get_parent().get_node("hud")
-		coin += 1
-		coinVal.update_coin(coin)
+		get_tree().change_scene_to(gameover)
