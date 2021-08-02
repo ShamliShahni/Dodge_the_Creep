@@ -17,32 +17,34 @@ var player_damage = 20
 var timer = 0.4
 var is_alive = true
 onready var tween = get_node("Tween")
+var coin = 0
 
 func _ready():
 	screen_size = get_viewport_rect().size
+	print()
 	hide()
 	is_alive = true
+	coin = 0
 	
 	
 func start(pos):
 	position = pos
 	show()
-	#$CollisionShape2D.disabled = false
+
 
 func _process(delta):
 	look_at_mouse()
 	move_player()
 	shooting()
 	
-	
+
 func shooting():
 	if can_fire :
 		can_fire = false
 		get_node("TurnPoint").rotation = get_angle_to(get_global_mouse_position())
 		var bullets_instance = bullets.instance()
 		bullets_instance.position =  get_node("TurnPoint/CastPoint").get_global_position()
-		bullets_instance.rotation_degrees = rotation_degrees + 90 #get_angle_to(get_global_mouse_position()) 
-		#bullets_instance.position.x -= bullets_instance.get_node("Sprite").get_rect().size.x
+		bullets_instance.rotation_degrees = rotation_degrees + 90 
 		get_parent().add_child(bullets_instance)
 		yield(get_tree().create_timer(fire_rate),"timeout")
 		can_fire = true
@@ -86,9 +88,6 @@ func _on_Area2D_body_entered(body):
 		var cur_score = get_parent().score
 		cur_score += 20
 		body.Visibility()
-#		print("coin")
-#		#var coin = get_parent().get("Coin")
-#		#coin.visible = false
-#		#coin.visible = false
-#		#coin.sleeping = true 
-#
+		var coinVal = get_parent().get_node("hud")
+		coin += 1
+		coinVal.update_coin(coin)

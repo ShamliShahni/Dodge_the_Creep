@@ -1,6 +1,6 @@
 extends RigidBody2D
 
-
+var coin = 0
 func _ready():
 	sleeping = true
 	mode = RigidBody2D.MODE_STATIC
@@ -13,10 +13,10 @@ func Visibility():
 	visible = false
 	
 
-func _on_Area2D_body_entered(body):
-	#print(body.name)
-	var group = body.get_groups()
-	#print(group)
-	if group.has("coin"):
-		visible = false
-	
+#func _on_Area2D_body_entered(body):
+#	#print(body.name)
+#	var group = body.get_groups()
+#	#print(group)
+#	if group.has("coin"):
+#		visible = false
+#

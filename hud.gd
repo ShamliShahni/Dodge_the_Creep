@@ -1,6 +1,8 @@
 extends CanvasLayer
 signal start_game
 
+#var coin = 0
+
 func show_message(text):
 	$Message.text = text
 	$Message.show()
@@ -20,7 +22,10 @@ func show_game_over():
 func update_score(score):
 	$ScoreLabel.text = str(score)
 	
-	
+func update_coin(coin):
+	#coin += 1
+	$CoinLabel.text = str(coin)
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 #func _process(delta):
 #	pass
