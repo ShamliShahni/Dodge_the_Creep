@@ -19,7 +19,7 @@ func _on_VisibilityNotifier2D_screen_exited():
 func _on_Area2D_body_entered(body):
 	var group = body.get_groups()
 	
-	if group.has("player"):
+	if group.has("player") && body.shealth == false:
 		#print("player")
 		body.player_health()
 	

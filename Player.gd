@@ -10,15 +10,19 @@ var min_speed = 150
 var bullet_speed = 100
 var fire_rate = 0.1
 var can_fire = true
-var bullets = preload("res://Bullets.tscn")
+var bullet1 = preload("res://Bullets.tscn")
+var bullet2 = preload("res://bullets2.tscn")
 var health_max = 100
 var health = 100
 var player_damage = 20
-var timer = 0.7
+var timer = 1
+
 var is_alive = true
+var bullets
 onready var tween = get_node("Tween")
 var coin = 0
 var gameover = preload("res://GameOver.tscn")
+var shealth = false
 
 func _ready():
 	screen_size = get_viewport_rect().size
@@ -26,7 +30,7 @@ func _ready():
 	hide()
 	is_alive = true
 	coin = 0
-	
+	bullets = bullet1
 	
 func start(pos):
 	position = pos
@@ -37,6 +41,10 @@ func _process(delta):
 	look_at_mouse()
 	move_player()
 	shooting()
+	if shealth == true:
+		$Shealth.visible = true
+	else:
+		$Shealth.visible = false
 	
 
 func shooting():
@@ -49,7 +57,7 @@ func shooting():
 		get_parent().add_child(bullets_instance)
 		yield(get_tree().create_timer(fire_rate),"timeout")
 		can_fire = true
-	
+
 func look_at_mouse():
 	look_at(get_global_mouse_position())
 	rotation_degrees -= 90

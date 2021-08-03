@@ -1,10 +1,14 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=11 format=2]
 
 [ext_resource path="res://Main.gd" type="Script" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://hud.tscn" type="PackedScene" id=3]
 [ext_resource path="res://PlayerHealthBar.tscn" type="PackedScene" id=4]
 [ext_resource path="res://mob.tscn" type="PackedScene" id=5]
+[ext_resource path="res://DoubleCoin.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Health.tscn" type="PackedScene" id=7]
+[ext_resource path="res://Shealth.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Bull.tscn" type="PackedScene" id=9]
 
 [sub_resource type="Curve2D" id=1]
 _data = {
@@ -39,7 +43,6 @@ position = Vector2( 2.90845, 1.25266 )
 rotation = 3.03855e-08
 
 [node name="MobTimer" type="Timer" parent="."]
-wait_time = 0.5
 
 [node name="hud" parent="." instance=ExtResource( 3 )]
 
@@ -50,6 +53,27 @@ wait_time = 0.4
 position = Vector2( 238.936, 359.072 )
 current = true
 
+[node name="DoubleCoin" parent="." instance=ExtResource( 6 )]
+visible = false
+position = Vector2( 2.80614, 5.05109 )
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
+
+[node name="Health" parent="." instance=ExtResource( 7 )]
+visible = false
+position = Vector2( 1.68369, 3.05176e-05 )
+
+[node name="Shealth" parent="." instance=ExtResource( 8 )]
+visible = false
+position = Vector2( 0, 0.561218 )
+
+[node name="SpawningTimer" type="Timer" parent="."]
+wait_time = 10.0
+
+[node name="Bull" parent="." instance=ExtResource( 9 )]
+visible = false
+
 [connection signal="hit" from="Player" to="." method="new_game"]
 [connection signal="hit" from="Player" to="." method="game_over"]
 [connection signal="timeout" from="ScoreTimer" to="." method="_on_ScoreTimer_timeout"]
@@ -57,3 +81,5 @@ current = true
 [connection signal="timeout" from="MobTimer" to="." method="_on_MobTimer_timeout"]
 [connection signal="start_game" from="hud" to="." method="new_game"]
 [connection signal="timeout" from="GameTIme" to="." method="_on_GameTIme_timeout"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+[connection signal="timeout" from="SpawningTimer" to="." method="_on_SpawningTimer_timeout"]
